@@ -55,7 +55,16 @@ var Juego = {
   ],
   // Los enemigos se agregaran en este arreglo.
   enemigos: [
-
+    new ZombieCaminante('imagenes/zombie1.png', Math.floor(Math.random() * 961) + 1  , Math.floor(Math.random() * 480) + 50 , 10, 10, 1,{desdeX: 0, hastaX: 961, desdeY: 0, hastaY: 577}),
+    new ZombieCaminante('imagenes/zombie1.png', Math.floor(Math.random() * 961) + 1  , Math.floor(Math.random() * 480) + 50 , 10, 10, 1,{desdeX: 0, hastaX: 961, desdeY: 0, hastaY: 577}),
+    new ZombieCaminante('imagenes/zombie2.png', Math.floor(Math.random() * 961) + 1  , Math.floor(Math.random() * 480) + 50, 10, 10, 1,{desdeX: 0, hastaX: 961, desdeY: 0, hastaY: 577}),
+    new ZombieCaminante('imagenes/zombie3.png', Math.floor(Math.random() * 961) + 1  , Math.floor(Math.random() * 480) + 50, 10, 10, 1,{desdeX: 0, hastaX: 961, desdeY: 0, hastaY: 577}),
+    new ZombieCaminante('imagenes/zombie4.png', Math.floor(Math.random() * 961) + 1  , Math.floor(Math.random() * 480) + 50, 10, 10, 1,{desdeX: 0, hastaX: 961, desdeY: 0, hastaY: 577}),
+    new ZombieCaminante('imagenes/zombie4.png', Math.floor(Math.random() * 961) + 1  , Math.floor(Math.random() * 480) + 50, 10, 10, 1,{desdeX: 0, hastaX: 961, desdeY: 0, hastaY: 577}),
+    new ZombieConductor('imagenes/tren_horizontal.png',0,322,90,30,5,{desdeX: 0, hastaX: 1500, desdeY: 0, hastaY: 577},'horizontal'),
+    new ZombieConductor('imagenes/tren_horizontal.png',750,322,90,30,5,{desdeX: 0, hastaX: 1500, desdeY: 0, hastaY: 577},'horizontal'),
+    new ZombieConductor('imagenes/tren_vertical.png',644,800,30,90,-5,{desdeX: 0, hastaX: 961, desdeY: -50, hastaY: 800},'vertical'),
+    new ZombieConductor('imagenes/tren_vertical.png',676,0,30,90,5,{desdeX: 0, hastaX: 961, desdeY: -50, hastaY: 600},'vertical')
   ]
 
 }
@@ -148,7 +157,6 @@ Juego.capturarMovimiento = function (tecla) {
     /* Aca tiene que estar la logica para mover al jugador invocando alguno
     de sus metodos  */
     Jugador.moverse(movX, movY);
-    /* COMPLETAR */
   }
 };
 
@@ -163,8 +171,7 @@ Juego.dibujar = function () {
   utilizando al dibujante y los metodos que nos brinda.
   "Dibujante dibuja al jugador" */
   Dibujante.dibujarEntidad(Jugador);
-  /* Completar */
-
+  
   // Se recorren los obstaculos de la carretera pintandolos
   this.obstaculosCarretera.forEach(function (obstaculo) {
     Dibujante.dibujarEntidad(obstaculo);
@@ -172,7 +179,8 @@ Juego.dibujar = function () {
 
   // Se recorren los enemigos pintandolos
   this.enemigos.forEach(function (enemigo) {
-    /* Completar */
+    /* this.dibujarImagen(entidad.sprite, entidad.x, entidad.y, entidad.ancho, entidad.alto);*/
+    Dibujante.dibujarEntidad(enemigo);
   });
 
   // El dibujante dibuja las vidas del jugador
@@ -183,13 +191,8 @@ Juego.dibujar = function () {
     Dibujante.dibujarRectangulo('red', x, 0, tamanio, 8);
   }
 
-  // new Obstaculo('', 18, 23, 51, 536, 2),
-  // new Obstaculo('', 69, 507, 690, 52, 2),
+  
   // new Obstaculo('', 587, 147, 173, 360, 2), ORIGEN DE LINEA DE LLEGADA = 587+173 =760
-  // new Obstaculo('', 346, 147, 241, 52, 2),
-  // new Obstaculo('', 196, 267, 263, 112, 2),
-  // new Obstaculo('', 196, 23, 83, 244, 2),
-  // new Obstaculo('', 279, 23, 664, 56, 2),
   // new Obstaculo('', 887, 79, 56, 480, 2) FIN DE LINEA DE LLEGADA = 887
   //ANCHO LINEA DE LLEGADA = 127 ->120
   let xLlegada = 760;
@@ -200,9 +203,6 @@ Juego.dibujar = function () {
     Dibujante.dibujarRectangulo("black", i + 10, yLlegada, tamañoCuadrado, tamañoCuadrado);
     Dibujante.dibujarRectangulo("black", i, yLlegada + tamañoCuadrado, tamañoCuadrado, tamañoCuadrado);
     Dibujante.dibujarRectangulo("white", i + 10, yLlegada + tamañoCuadrado, tamañoCuadrado, tamañoCuadrado);
-    // Dibujante.dibujarRectangulo("white", i, yLlegada + tamañoCuadrado + tamañoCuadrado, tamañoCuadrado, tamañoCuadrado);
-    // Dibujante.dibujarRectangulo("black", i + 10, yLlegada + tamañoCuadrado + tamañoCuadrado, tamañoCuadrado, tamañoCuadrado);
-
   }
 };
 
@@ -212,7 +212,9 @@ Juego.dibujar = function () {
 un recorrido por los enemigos para dibujarlos en pantalla ahora habra que hacer
 una funcionalidad similar pero para que se muevan.*/
 Juego.moverEnemigos = function () {
-  /* COMPLETAR */
+  this.enemigos.forEach(function(enemigo){
+    enemigo.mover();
+  })
 };
 
 /* Recorre los enemigos para ver cual esta colisionando con el jugador
@@ -224,9 +226,11 @@ Juego.calcularAtaques = function () {
     if (this.intersecan(enemigo, this.jugador, this.jugador.x, this.jugador.y)) {
       /* Si el enemigo colisiona debe empezar su ataque
       COMPLETAR */
+      enemigo.comenzarAtaque(Jugador);
     } else {
       /* Sino, debe dejar de atacar
       COMPLETAR */
+      enemigo.dejarDeAtacar(Jugador);
     }
   }, this);
 };
