@@ -115,22 +115,26 @@ Juego.capturarMovimiento = function(tecla) {
   // El movimiento esta determinado por la velocidad del jugador
   if (tecla == 'izq') {
     movX = -velocidad;
+    Jugador.cambiarSprite('izquierda');
   }
   if (tecla == 'arriba') {
     movY = -velocidad;
+    Jugador.cambiarSprite('arriba');
   }
   if (tecla == 'der') {
     movX = velocidad;
+    Jugador.cambiarSprite('derecha');
   }
   if (tecla == 'abajo') {
     movY = velocidad;
+    Jugador.cambiarSprite('abajo');
   }
 
   // Si se puede mover hacia esa posicion hay que hacer efectivo este movimiento
   if (this.chequearColisiones(movX + this.jugador.x, movY + this.jugador.y)) {
     /* Aca tiene que estar la logica para mover al jugador invocando alguno
     de sus metodos  */
-
+    Jugador.moverse(movX,movY);
     /* COMPLETAR */
   }
 };
@@ -145,7 +149,7 @@ Juego.dibujar = function() {
   /* Aca hay que agregar la logica para poder dibujar al jugador principal
   utilizando al dibujante y los metodos que nos brinda.
   "Dibujante dibuja al jugador" */
-
+  Dibujante.dibujarEntidad(Jugador);
   /* Completar */
 
   // Se recorren los obstaculos de la carretera pintandolos
