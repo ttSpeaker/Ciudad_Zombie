@@ -9,7 +9,7 @@ var Jugador = {
   ancho: 15,
   alto: 30,
   velocidad: 10,
-  vidas: 5,
+  vidas: 10,
   // Hay que agregar lo que falte al jugador: movimientos, perdida de vidas,
   // y todo lo que haga falta para que cumpla con sus responsabilidades
   cambiarSprite: function (direccion) {
@@ -27,7 +27,7 @@ var Jugador = {
     this.x = this.x + movX;
     this.y = this.y + movY;
   },
-  perderVidas: function () {
-    this.vidas--;
+  perderVidas: function (potencia) {
+    this.vidas=this.vidas-potencia;
   }
 }
